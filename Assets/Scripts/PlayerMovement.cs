@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public float _jumpForce = 1200.0f;
     private Rigidbody _rb;
     private Animator _anim;
+    private bool _canJump = true;
     
     // Start is called before the first frame update
     void Start()
@@ -37,9 +38,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetButtonDown("Jump"))
+        if(Input.GetButtonDown("Jump") && _canJump)
         {
+            _canJump = false;
             _rb.AddForce(Vector3.up * (_jumpForce * Time.deltaTime), ForceMode.VelocityChange);
+            StartCoroutine(JumpAgain());
         }
+    }
+
+    IEnumerator JumpAgain()
+    {
+        yield return new WaitForSeconds(1.2f);
+        _canJump = true;
     }
 }

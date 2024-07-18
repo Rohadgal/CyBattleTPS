@@ -8,11 +8,12 @@ public class WeaponChange : MonoBehaviour
     public TwoBoneIKConstraint leftHand;
 
     public TwoBoneIKConstraint rightHand;
-
+    public TwoBoneIKConstraint leftThumb;
     public RigBuilder rig;
     
     public Transform[] leftTargets;
     public Transform[] rightTargets;
+    public Transform[] thumbTargets;
     public GameObject[] weapons;
     private int _weaponIndex = 0;
     
@@ -50,6 +51,7 @@ public class WeaponChange : MonoBehaviour
         
         leftHand.data.target = leftTargets[_weaponIndex];
         rightHand.data.target = rightTargets[_weaponIndex];
+        leftThumb.data.target = thumbTargets[_weaponIndex];
         rig.Build();
         
     }
