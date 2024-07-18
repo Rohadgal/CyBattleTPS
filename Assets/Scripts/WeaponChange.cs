@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using Cinemachine;
+using Photon.Pun;
 
 public class WeaponChange : MonoBehaviour
 {
@@ -9,8 +11,13 @@ public class WeaponChange : MonoBehaviour
 
     public TwoBoneIKConstraint rightHand;
     public TwoBoneIKConstraint leftThumb;
-    public RigBuilder rig;
+
+    private CinemachineVirtualCamera cam;
+    private GameObject camObject;
+    public MultiAimConstraint[] aimObjects;
+    private Transform aimTarget;
     
+    public RigBuilder rig;
     public Transform[] leftTargets;
     public Transform[] rightTargets;
     public Transform[] thumbTargets;
@@ -20,9 +27,35 @@ public class WeaponChange : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        leftHand.data.target = leftTargets[_weaponIndex];
-        rightHand.data.target = rightTargets[_weaponIndex];
-        rig.Build();
+        camObject = GameObject.Find("PlayerCam");
+        aimTarget = GameObject.Find("AimRef").transform;
+        if (this.gameObject.GetComponent<PhotonView>().IsMine)
+        {
+            cam = camObject.GetComponent<CinemachineVirtualCamera>();
+            cam.Follow = this.gameObject.transform;
+            cam.LookAt = this.gameObject.transform;
+            Invoke("SetLookAt", 0.1f);
+        }
+        // leftHand.data.target = leftTargets[_weaponIndex];
+        // rightHand.data.target = rightTargets[_weaponIndex];
+        // rig.Build();
+        
+        
+    }
+
+    void SetLookAt()
+    {
+        if (aimTarget != null)
+        {
+            for (int i = 0; i < aimObjects.Length; i++)
+            {
+                var target = aimObjects[i].data.sourceObjects;
+                target.SetTransform(0, aimTarget.transform);
+                aimObjects[i].data.sourceObjects = target;
+            }
+
+            rig.Build();
+        }
     }
 
     // Update is called once per frame

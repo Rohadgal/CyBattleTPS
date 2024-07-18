@@ -5653,6 +5653,7 @@ GameObject:
   - component: {fileID: 6329676239187650366}
   - component: {fileID: 723406979054890757}
   - component: {fileID: 7286426522118055579}
+  - component: {fileID: 2387433281463628145}
   m_Layer: 0
   m_Name: YBot
   m_TagString: Player
@@ -5856,6 +5857,10 @@ MonoBehaviour:
   leftHand: {fileID: 6949142482822176255}
   rightHand: {fileID: 6272655851147981793}
   leftThumb: {fileID: 106205055181508252}
+  aimObjects:
+  - {fileID: 4197678499577410227}
+  - {fileID: 8093069947792426185}
+  - {fileID: 5003149425198986049}
   rig: {fileID: 723406979054890757}
   leftTargets:
   - {fileID: 5220739137685630471}
@@ -5873,6 +5878,28 @@ MonoBehaviour:
   - {fileID: 7008078188771612362}
   - {fileID: 4577503476409480618}
   - {fileID: 3569372018203152530}
+--- !u!114 &2387433281463628145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1245215637081299828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1280692826023059708
 GameObject:
   m_ObjectHideFlags: 0
