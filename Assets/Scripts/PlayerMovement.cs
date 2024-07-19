@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 3.5f;
     public float rotateSpeed = 100.0f;
-    public float _jumpForce = 1200.0f;
+    public float jumpForce = 1200.0f;
     private Rigidbody _rb;
     private Animator _anim;
     private bool _canJump = true;
@@ -41,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
         if(Input.GetButtonDown("Jump") && _canJump)
         {
             _canJump = false;
-            _rb.AddForce(Vector3.up * (_jumpForce * Time.deltaTime), ForceMode.VelocityChange);
+            _rb.AddForce(Vector3.up * (jumpForce * Time.deltaTime), ForceMode.VelocityChange);
             StartCoroutine(JumpAgain());
         }
     }
