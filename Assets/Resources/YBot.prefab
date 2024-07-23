@@ -5821,7 +5821,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 7
   rotateSpeed: 200
-  _jumpForce: 600
+  jumpForce: 1200
 --- !u!114 &723406979054890757
 MonoBehaviour:
   m_ObjectHideFlags: 0

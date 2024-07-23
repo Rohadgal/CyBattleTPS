@@ -23,6 +23,7 @@ public class WeaponChange : MonoBehaviour
     public Transform[] thumbTargets;
     public GameObject[] weapons;
     private int _weaponIndex = 0;
+    private GameObject testForWeapons;
     
     // Start is called before the first frame update
     void Start()
@@ -40,10 +41,13 @@ public class WeaponChange : MonoBehaviour
         {
             this.gameObject.GetComponent<PlayerMovement>().enabled = false;
         }
-        // leftHand.data.target = leftTargets[_weaponIndex];
-        // rightHand.data.target = rightTargets[_weaponIndex];
-        // rig.Build();
         
+        testForWeapons = GameObject.Find("WeaponPickUp1(Clone)");
+        if (!testForWeapons)
+        {
+            var spawner = GameObject.Find("SpawnManager");
+            spawner.GetComponent<SpawnCharacters>().SpawnWeaponStart();
+        }
         
     }
 
