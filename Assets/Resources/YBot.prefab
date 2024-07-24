@@ -5782,7 +5782,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!136 &1387033081922712672
 CapsuleCollider:
@@ -5819,9 +5819,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be5fae90941a66c4f911bf89fbaaa6a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 7
+  moveSpeed: 10
   rotateSpeed: 200
-  jumpForce: 1200
+  jumpForce: 1000
 --- !u!114 &723406979054890757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5957,6 +5957,9 @@ MonoBehaviour:
   - {fileID: 4480439463626260819}
   - {fileID: 4702579431870148152}
   - {fileID: 2687852241101196410}
+  - {fileID: 8553190889953914365}
+  - {fileID: 5969672248717009451}
+  - {fileID: 6430530430605520362}
   - {fileID: 7822750725332979674}
   - {fileID: 9203920620685676437}
   - {fileID: 7223319295751689216}
@@ -7697,6 +7700,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8824784284953924833}
   - component: {fileID: 6519394637051097724}
+  - component: {fileID: 6430530430605520362}
   m_Layer: 0
   m_Name: Bio Integrity Gun
   m_TagString: Untagged
@@ -7740,6 +7744,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48948dfe9d76b07488dacd46a7955fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6430530430605520362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3569372018203152530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &3675629171457918956
 GameObject:
   m_ObjectHideFlags: 0
@@ -8260,6 +8280,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7165613300878022707}
   - component: {fileID: 1140017911948636661}
+  - component: {fileID: 5969672248717009451}
   m_Layer: 0
   m_Name: RL0N-25_low
   m_TagString: Untagged
@@ -8328,6 +8349,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48948dfe9d76b07488dacd46a7955fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5969672248717009451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4577503476409480618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &4609362407871567875
 GameObject:
   m_ObjectHideFlags: 0
@@ -10337,6 +10374,7 @@ GameObject:
   - component: {fileID: 5052949648874124192}
   - component: {fileID: 7529416103284658548}
   - component: {fileID: 1274793579259807012}
+  - component: {fileID: 8553190889953914365}
   m_Layer: 0
   m_Name: Sci-Fi Gun
   m_TagString: Untagged
@@ -10424,6 +10462,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48948dfe9d76b07488dacd46a7955fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8553190889953914365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7008078188771612362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &7043281292075867264
 GameObject:
   m_ObjectHideFlags: 0

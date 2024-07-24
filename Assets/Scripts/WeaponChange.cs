@@ -69,13 +69,37 @@ public class WeaponChange : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) && this.gameObject.GetComponent<PhotonView>().IsMine)
         {
             ChangeWeapon();
         }
     }
 
     private void ChangeWeapon()
+    {
+        this.GetComponent<PhotonView>().RPC("Change", RpcTarget.AllBuffered);
+        //_weaponIndex++;
+        foreach (GameObject weapon in weapons)
+        {
+            weapon.SetActive(false);
+        }
+
+        if (_weaponIndex >= weapons.Length)
+        {
+            _weaponIndex = 0;
+        }
+        
+        weapons[_weaponIndex].SetActive(true);
+        
+        leftHand.data.target = leftTargets[_weaponIndex];
+        rightHand.data.target = rightTargets[_weaponIndex];
+        leftThumb.data.target = thumbTargets[_weaponIndex];
+        rig.Build();
+        
+    }
+
+    [PunRPC]
+    public void Change()
     {
         _weaponIndex++;
         foreach (GameObject weapon in weapons)
@@ -94,6 +118,5 @@ public class WeaponChange : MonoBehaviour
         rightHand.data.target = rightTargets[_weaponIndex];
         leftThumb.data.target = thumbTargets[_weaponIndex];
         rig.Build();
-        
     }
 }
