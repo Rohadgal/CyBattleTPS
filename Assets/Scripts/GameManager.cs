@@ -3,13 +3,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.
 
-public class GameManager : MonoBehaviourPunCallbacks
+UI;public class GameManager : MonoBehaviourPunCallbacks
 {
+    public InputField playerNickname;
+    private string setName = "";
+    public GameObject connectingTextGO;
     private void Start()
     {
-        PhotonNetwork.AutomaticallySyncScene = true;
-        PhotonNetwork.ConnectUsingSettings();
+        connectingTextGO.SetActive(false);
+
+    }
+
+    public void UpdateText()
+    {
+        setName = playerNickname.text;
+        PhotonNetwork.LocalPlayer.NickName = setName;
+    }
+    public void EnterButton()
+    {
+        if (setName != "")
+        {
+            PhotonNetwork.AutomaticallySyncScene = true;
+            PhotonNetwork.ConnectUsingSettings();
+            connectingTextGO.SetActive(true);
+        }
+    }
+
+    public void ExitButton()
+    {
+        Application.Quit();
     }
 
     public override void OnConnectedToMaster()
