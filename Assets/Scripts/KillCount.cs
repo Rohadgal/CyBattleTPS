@@ -1,0 +1,48 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+public class KillCount : MonoBehaviour{
+    public List<Kills> highestKills = new List<Kills>();
+    public Text[] names;
+    public Text[] killAmounts;
+    private GameObject killCountPanel;
+    private GameObject namesObject;
+    private bool killCountOn = false;
+    
+    void Start()
+    {
+        killCountPanel = GameObject.Find("KillCountPanel");
+        namesObject = GameObject.Find("NamesBackground");
+        killCountPanel.SetActive(false);
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.T)) {
+            
+            if (!killCountOn) {
+                killCountPanel.SetActive(true);
+                killCountOn = true;
+                highestKills.Clear();
+                for (int i = 0; i < names.Length; i++) {
+                    highestKills.Add(new Kills(namesObject.GetComponent<NicknamesScript>().names[i].text, Random.Range(1,2900)));
+                    Debug.Log(highestKills[i].playerName);
+                }
+                highestKills.Sort();
+                for (int i = 0; i < names.Length; i++) {
+                    names[i].text = highestKills[i].playerName;
+                    killAmounts[i].text = highestKills[i].playerKills.ToString();
+                    if (names[i].text == "Name") {
+                        names[i].text = "";
+                        killAmounts[i].text = "";
+                    }
+                }
+                return;
+            }
+            killCountPanel.SetActive(false);
+            killCountOn = false;
+        }
+        
+    }
+}
