@@ -1378,12 +1378,12 @@ GameObject:
   - component: {fileID: 1318756572}
   - component: {fileID: 1318756571}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: Connecting Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1318756570
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1436,7 +1436,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: CONNECTING...
 --- !u!222 &1318756572
 CanvasRenderer:
   m_ObjectHideFlags: 0
