@@ -13,6 +13,7 @@ public class DisplayColor : MonoBehaviourPunCallbacks{
 
 	private GameObject namesObject, waitForPlayers;
 
+	public AudioClip[] gunshotSounds;
 	private void Start(){
 		namesObject = GameObject.Find("NamesBackground");
 		waitForPlayers = GameObject.Find("WaitingBackground");
@@ -27,6 +28,19 @@ public class DisplayColor : MonoBehaviourPunCallbacks{
 		}
 	}
 
+	public void DeliverDamage(string name, float damageAmount){
+		GetComponent<PhotonView>().RPC("GunDamage", RpcTarget.AllBuffered, name, damageAmount);	
+	}
+
+	[PunRPC]
+	void GunDamage(string name, float damageAmount){
+		for (int i = 0; i < namesObject.GetComponent<NicknamesScript>().names.Length; i++) {
+			if (name == namesObject.GetComponent<NicknamesScript>().names[i].text) {
+				namesObject.GetComponent<NicknamesScript>().healthbars[i].gameObject.GetComponent<Image>().fillAmount -= damageAmount;
+			}
+		}
+	}
+	
 	private void RoomExit(){
 		StartCoroutine(GetReadyToLeave());
 	}
@@ -44,6 +58,20 @@ public class DisplayColor : MonoBehaviourPunCallbacks{
 
 	public void ChooseColor(){
 		GetComponent<PhotonView>().RPC("AssignColor", RpcTarget.AllBuffered);
+	}
+
+	public void PlayGunShot(string name, int weaponNumber) {
+		GetComponent<PhotonView>().RPC("PlaySound", RpcTarget.All, name, weaponNumber);
+	}
+
+	[PunRPC]
+	void PlaySound(string name, int weaponNumber){
+		for (int i = 0; i < namesObject.GetComponent<NicknamesScript>().names.Length; i++) {
+			if (name == namesObject.GetComponent<NicknamesScript>().names[i].text) {
+				GetComponent<AudioSource>().clip = gunshotSounds[weaponNumber];
+				GetComponent<AudioSource>().Play();
+			}
+		}
 	}
 
 	[PunRPC]

@@ -27,9 +27,12 @@ public class WeaponChange : MonoBehaviour
     private Image weaponIcon;
     private Text ammoAmountText;
     public Sprite[] weaponIcons;
-
     public int[] ammoAmounts;
-    // Start is called before the first frame update
+    public GameObject[] muzzleFlash;
+    private string shooterName, gotShotName;
+    public float[] damageAmount;
+    
+    
     void Start(){
         weaponIcon = GameObject.Find("WeaponUI").GetComponent<Image>();
         ammoAmountText = GameObject.Find("AmmoAmount").GetComponent<Text>();
@@ -71,13 +74,51 @@ public class WeaponChange : MonoBehaviour
     //     }
     // }
 
-    // Update is called once per frame
+
     void Update()
     {
+        if (Input.GetMouseButtonDown(0)) {
+            GunshotAction();
+        }
         if (Input.GetKeyDown(KeyCode.Q) && this.gameObject.GetComponent<PhotonView>().IsMine)
         {
             ChangeWeapon();
         }
+    }
+
+    private void GunshotAction(){
+        if (this.GetComponent<PhotonView>().IsMine) {
+            GetComponent<DisplayColor>().PlayGunShot(GetComponent<PhotonView>().Owner.NickName, _weaponIndex);
+            this.GetComponent<PhotonView>().RPC("GunMuzzleFlash", RpcTarget.All);
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            this.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
+            if (Physics.Raycast(ray, out hit, 500) && 
+                hit.transform.gameObject.GetComponent<PhotonView>() &&
+                hit.transform.gameObject.GetComponent<DisplayColor>()) {
+                gotShotName = hit.transform.gameObject.GetComponent<PhotonView>().Owner.NickName;
+                hit.transform.gameObject.GetComponent<DisplayColor>().DeliverDamage(gotShotName, damageAmount[_weaponIndex]);
+                shooterName = GetComponent<PhotonView>().Owner.NickName;
+                Debug.Log(gotShotName + " got hit by " + shooterName);
+            }
+            this.gameObject.layer = LayerMask.NameToLayer("Default");
+        }
+    }
+
+    [PunRPC]
+    void GunMuzzleFlash(){
+        muzzleFlash[_weaponIndex].SetActive(true);
+        StartCoroutine(MuzzleOff());
+    }
+    IEnumerator MuzzleOff(){
+        yield return new WaitForSeconds(0.03f);
+        this.GetComponent<PhotonView>().RPC("MuzzleFlashOff", RpcTarget.All);
+        
+    }
+
+    [PunRPC]
+    void MuzzleFlashOff(){
+        muzzleFlash[_weaponIndex].SetActive(false);
     }
 
     private void ChangeWeapon()
