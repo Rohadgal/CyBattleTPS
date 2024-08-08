@@ -29,9 +29,11 @@ public class WeaponChange : MonoBehaviour
     public Sprite[] weaponIcons;
     public int[] ammoAmounts;
     public GameObject[] muzzleFlash;
-    private string shooterName, gotShotName;
+    //private string shooterName, gotShotName;
     public float[] damageAmount;
-    
+
+    public bool isDead =
+        false;
     
     void Start(){
         weaponIcon = GameObject.Find("WeaponUI").GetComponent<Image>();
@@ -53,8 +55,10 @@ public class WeaponChange : MonoBehaviour
         testForWeapons = GameObject.Find("WeaponPickUp1(Clone)");
         if (!testForWeapons)
         {
-            var spawner = GameObject.Find("SpawnManager");
-            spawner.GetComponent<SpawnCharacters>().SpawnWeaponStart();
+            if (this.gameObject.GetComponent<PhotonView>().Owner.IsMasterClient) {
+                var spawner = GameObject.Find("SpawnManager");
+                spawner.GetComponent<SpawnCharacters>().SpawnWeaponStart();
+            }
         }
         
     }
@@ -77,6 +81,9 @@ public class WeaponChange : MonoBehaviour
 
     void Update()
     {
+        if (isDead) {
+            return;
+        }
         if (Input.GetMouseButtonDown(0)) {
             GunshotAction();
         }
@@ -84,6 +91,7 @@ public class WeaponChange : MonoBehaviour
         {
             ChangeWeapon();
         }
+        
     }
 
     private void GunshotAction(){
@@ -96,10 +104,10 @@ public class WeaponChange : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 500) && 
                 hit.transform.gameObject.GetComponent<PhotonView>() &&
                 hit.transform.gameObject.GetComponent<DisplayColor>()) {
-                gotShotName = hit.transform.gameObject.GetComponent<PhotonView>().Owner.NickName;
-                hit.transform.gameObject.GetComponent<DisplayColor>().DeliverDamage(gotShotName, damageAmount[_weaponIndex]);
-                shooterName = GetComponent<PhotonView>().Owner.NickName;
-                Debug.Log(gotShotName + " got hit by " + shooterName);
+                string gotShotName = hit.transform.gameObject.GetComponent<PhotonView>().Owner.NickName;
+                string shooterName = GetComponent<PhotonView>().Owner.NickName;
+                hit.transform.gameObject.GetComponent<DisplayColor>().DeliverDamage(shooterName, gotShotName, damageAmount[_weaponIndex]);
+               // Debug.Log(gotShotName + " got hit by " + shooterName);
             }
             this.gameObject.layer = LayerMask.NameToLayer("Default");
         }

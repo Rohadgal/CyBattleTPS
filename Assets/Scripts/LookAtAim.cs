@@ -8,14 +8,13 @@ using UnityEngine.UI;
 public class LookAtAim : MonoBehaviour
 {
     private Vector3 worldPosition;
-
     private Vector3 screenPosition;
     public GameObject crosshair;
     
     void FixedUpdate()
     {
         screenPosition = Input.mousePosition;
-        screenPosition.z = 3f;
+        screenPosition.z = 6f;
         
         worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
         transform.position = worldPosition;

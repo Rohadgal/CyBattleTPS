@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UI;
@@ -26,17 +27,53 @@ public class DisplayColor : MonoBehaviourPunCallbacks{
 				RoomExit();
 			}
 		}
+
+		if (this.GetComponent<Animator>().GetBool("isHit")) {
+			StartCoroutine(Recover());
+		}
 	}
 
-	public void DeliverDamage(string name, float damageAmount){
-		GetComponent<PhotonView>().RPC("GunDamage", RpcTarget.AllBuffered, name, damageAmount);	
+	public void Respawn(string name){
+		GetComponent<PhotonView>().RPC("ResetForReplay", RpcTarget.AllBuffered, name);
 	}
 
 	[PunRPC]
-	void GunDamage(string name, float damageAmount){
+	void ResetForReplay(string name){
 		for (int i = 0; i < namesObject.GetComponent<NicknamesScript>().names.Length; i++) {
 			if (name == namesObject.GetComponent<NicknamesScript>().names[i].text) {
-				namesObject.GetComponent<NicknamesScript>().healthbars[i].gameObject.GetComponent<Image>().fillAmount -= damageAmount;
+				this.GetComponent<Animator>().SetBool("isDead", false);
+				this.gameObject.GetComponent<WeaponChange>().isDead = false;
+				this.gameObject.GetComponentInChildren<AimLookAtRef>().isDead = false;
+				this.gameObject.layer = LayerMask.NameToLayer("Default");
+				namesObject.GetComponent<NicknamesScript>().healthbars[i].gameObject.GetComponent<Image>().fillAmount =
+					1;
+			}
+		}
+	}
+
+	public void DeliverDamage(string shooterName, string name, float damageAmount){
+		GetComponent<PhotonView>().RPC("GunDamage", RpcTarget.AllBuffered, shooterName, name, damageAmount);	
+	}
+
+	[PunRPC]
+	void GunDamage(string shooterName, string name, float damageAmount){
+		for (int i = 0; i < namesObject.GetComponent<NicknamesScript>().names.Length; i++) {
+			if (name == namesObject.GetComponent<NicknamesScript>().names[i].text) {
+				if (namesObject.GetComponent<NicknamesScript>().healthbars[i].gameObject.GetComponent<Image>()
+					    .fillAmount > 0.1f) {
+					this.GetComponent<Animator>().SetBool("isHit", true);
+					namesObject.GetComponent<NicknamesScript>().healthbars[i].gameObject.GetComponent<Image>().fillAmount -= damageAmount;
+					return;
+				}
+
+				namesObject.GetComponent<NicknamesScript>().healthbars[i].gameObject.GetComponent<Image>().fillAmount =
+					0;
+				this.GetComponent<Animator>().SetBool("isDead", true);
+				this.gameObject.GetComponent<PlayerMovement>().isDead = true;
+				this.gameObject.GetComponent<WeaponChange>().isDead = true;
+				this.gameObject.GetComponentInChildren<AimLookAtRef>().isDead = true;
+				namesObject.GetComponent<NicknamesScript>().RunMessage(shooterName, name);
+				this.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
 			}
 		}
 	}
@@ -95,5 +132,10 @@ public class DisplayColor : MonoBehaviourPunCallbacks{
 				namesObject.GetComponent<NicknamesScript>().healthbars[i].gameObject.SetActive(false);
 			}
 		}
+	}
+
+	IEnumerator Recover(){
+		yield return new WaitForSeconds(0.03f);
+		this.GetComponent<Animator>().SetBool("isHit", false);
 	}
 }

@@ -18,6 +18,7 @@ public class SpawnCharacters : MonoBehaviour
         {
             PhotonNetwork.Instantiate(character.name, spawnPoints[PhotonNetwork.CurrentRoom.PlayerCount - 1].position,
                 spawnPoints[PhotonNetwork.CurrentRoom.PlayerCount - 1].rotation);
+            Debug.Log("Player Spawned");
         }
     }
     

@@ -5907,6 +5907,7 @@ MonoBehaviour:
   moveSpeed: 10
   rotateSpeed: 200
   jumpForce: 1000
+  isDead: 0
 --- !u!114 &723406979054890757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6030,6 +6031,7 @@ MonoBehaviour:
   - 0.1
   - 0.3
   - 0.5
+  isDead: 0
 --- !u!114 &2387433281463628145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6114,6 +6116,12 @@ MonoBehaviour:
   - Type: 1
     SynchronizeType: 2
     Name: BlendHorizontal
+  - Type: 4
+    SynchronizeType: 2
+    Name: isHit
+  - Type: 4
+    SynchronizeType: 2
+    Name: isDead
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
@@ -13468,3 +13476,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 081c3bd204b3e8f4aaceea1757e89483, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDead: 0

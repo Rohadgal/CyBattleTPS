@@ -52,6 +52,10 @@ MonoBehaviour:
   - MuzzleFlashOff
   - RoomExit
   - GunDamage
+  - DisplayMessage
+  - MessageOff
+  - DeliverDamage
+  - ResetForReplay
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1
