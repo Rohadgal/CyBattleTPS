@@ -1,10 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using Cinemachine;
 using Photon.Pun;
-using Unity.VisualScripting;
 using UnityEngine.UI;
 public class WeaponChange : MonoBehaviour
 {
@@ -29,16 +27,19 @@ public class WeaponChange : MonoBehaviour
     public Sprite[] weaponIcons;
     public int[] ammoAmounts;
     public GameObject[] muzzleFlash;
-    //private string shooterName, gotShotName;
     public float[] damageAmount;
-
-    public bool isDead =
-        false;
+    public bool isDead = false;
+    private GameObject choosePanel;
     
     void Start(){
+        choosePanel = GameObject.Find("ChoosePanel");
         weaponIcon = GameObject.Find("WeaponUI").GetComponent<Image>();
         ammoAmountText = GameObject.Find("AmmoAmount").GetComponent<Text>();
         camObject = GameObject.Find("PlayerCam");
+        ammoAmounts[0] = 60;
+        ammoAmounts[1] = 0;
+        ammoAmounts[2] = 0;
+        ammoAmountText.text = ammoAmounts[0].ToString();
         //aimTarget = GameObject.Find("AimRef").transform;
         if (this.gameObject.GetComponent<PhotonView>().IsMine)
         {
@@ -84,7 +85,7 @@ public class WeaponChange : MonoBehaviour
         if (isDead) {
             return;
         }
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0) && !choosePanel.activeInHierarchy) {
             GunshotAction();
         }
         if (Input.GetKeyDown(KeyCode.Q) && this.gameObject.GetComponent<PhotonView>().IsMine)
@@ -95,7 +96,9 @@ public class WeaponChange : MonoBehaviour
     }
 
     private void GunshotAction(){
-        if (this.GetComponent<PhotonView>().IsMine) {
+        if (this.GetComponent<PhotonView>().IsMine && ammoAmounts[_weaponIndex] > 0) {
+            ammoAmounts[_weaponIndex]--;
+            ammoAmountText.text = ammoAmounts[_weaponIndex].ToString();
             GetComponent<DisplayColor>().PlayGunShot(GetComponent<PhotonView>().Owner.NickName, _weaponIndex);
             this.GetComponent<PhotonView>().RPC("GunMuzzleFlash", RpcTarget.All);
             RaycastHit hit;
@@ -111,6 +114,10 @@ public class WeaponChange : MonoBehaviour
             }
             this.gameObject.layer = LayerMask.NameToLayer("Default");
         }
+    }
+
+    public void UpdatePickup(){
+        ammoAmountText.text = ammoAmounts[_weaponIndex].ToString();
     }
 
     [PunRPC]

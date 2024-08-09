@@ -18,6 +18,7 @@ public class DisplayColor : MonoBehaviourPunCallbacks{
 	private void Start(){
 		namesObject = GameObject.Find("NamesBackground");
 		waitForPlayers = GameObject.Find("WaitingBackground");
+		InvokeRepeating("CheckTime", 1, 1);
 	}
 
 	private void Update(){
@@ -30,6 +31,16 @@ public class DisplayColor : MonoBehaviourPunCallbacks{
 
 		if (this.GetComponent<Animator>().GetBool("isHit")) {
 			StartCoroutine(Recover());
+		}
+	}
+
+	void CheckTime(){
+		if (namesObject.GetComponent<Timer>().timeStop) {
+			this.gameObject.GetComponent<PlayerMovement>().isDead = true;
+			this.gameObject.GetComponent<PlayerMovement>().gameOver = true;
+			this.gameObject.GetComponent<WeaponChange>().isDead = true;
+			this.gameObject.GetComponentInChildren<AimLookAtRef>().isDead = true;
+			this.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
 		}
 	}
 

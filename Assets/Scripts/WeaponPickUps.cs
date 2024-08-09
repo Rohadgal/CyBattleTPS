@@ -1,10 +1,7 @@
-using System;
+
 using System.Collections;
-using System.Collections.Generic;
-using ExitGames.Client.Photon.StructWrapping;
 using UnityEngine;
 using Photon.Pun;
-using Unity.VisualScripting;
 
 public class WeaponPickUps : MonoBehaviourPun
 {
@@ -12,6 +9,7 @@ public class WeaponPickUps : MonoBehaviourPun
     public float respawnTime = 5;
     private PhotonView _photonView;
     public int weaponType = 1;
+    public int ammoRefillAmount = 60;
 
     void Start()
     {
@@ -25,6 +23,8 @@ public class WeaponPickUps : MonoBehaviourPun
         {
             _photonView.RPC("PlayPickUpAudio", RpcTarget.All);
             _photonView.RPC("TurnOff", RpcTarget.All);
+            other.GetComponent<WeaponChange>().ammoAmounts[weaponType - 1] += ammoRefillAmount;
+            other.GetComponent<WeaponChange>().UpdatePickup();
         }
     }
 

@@ -1,9 +1,6 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -13,9 +10,10 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody _rb;
     private Animator _anim;
     private bool _canJump = true;
-    public bool isDead;
+    public bool isDead = false, gameOver = false;
     private Vector3 startPos;
-    private bool respawned;
+    private bool respawned = false;
+    private GameObject respawnPanel;
     
     // Start is called before the first frame update
     void Start()
@@ -23,12 +21,14 @@ public class PlayerMovement : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _anim = GetComponent<Animator>();
         startPos = transform.position;
+        respawnPanel = GameObject.Find("RespawnPanel");
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         if (!isDead) {
+            respawnPanel.SetActive(false);
             Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
             
             Vector3 rotateY = new Vector3(0, Input.GetAxis("Mouse X") * rotateSpeed * Time.deltaTime, 0);
@@ -46,18 +46,17 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         if (!isDead) {
-            if(Input.GetButtonDown("Jump") && _canJump)
-            {
+            if(Input.GetButtonDown("Jump") && _canJump) {
                 _canJump = false;
                 _rb.AddForce(Vector3.up * (jumpForce * Time.deltaTime), ForceMode.VelocityChange);
                 StartCoroutine(JumpAgain());
             }
-
             return;
         }
-
-        if (!respawned) {
+        if (!respawned && !gameOver) {
             respawned = true;
+            respawnPanel.SetActive(true);
+            respawnPanel.GetComponent<RespawnTimer>().enabled = true;
             StartCoroutine(RespawnWait());
         }
     }

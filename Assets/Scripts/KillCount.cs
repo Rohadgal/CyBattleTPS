@@ -9,17 +9,21 @@ public class KillCount : MonoBehaviour{
     private GameObject killCountPanel;
     private GameObject namesObject;
     private bool killCountOn = false;
+    public bool countDown = true;
+    public GameObject winnerPanel;
+    public Text winnerText;
     
     void Start()
     {
         killCountPanel = GameObject.Find("KillCountPanel");
         namesObject = GameObject.Find("NamesBackground");
         killCountPanel.SetActive(false);
+        winnerPanel.SetActive(false);
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T)) {
+        if (Input.GetKeyDown(KeyCode.T) && countDown) {
             
             if (!killCountOn) {
                 killCountPanel.SetActive(true);
@@ -43,6 +47,26 @@ public class KillCount : MonoBehaviour{
             killCountPanel.SetActive(false);
             killCountOn = false;
         }
-        
+    }
+
+    public void TimeOver(){
+        killCountPanel.SetActive(true);
+        winnerPanel.SetActive(true);
+        killCountOn = true;
+        highestKills.Clear();
+        for (int i = 0; i < names.Length; i++) {
+            highestKills.Add(new Kills(namesObject.GetComponent<NicknamesScript>().names[i].text, namesObject.GetComponent<NicknamesScript>().kills[i]));
+            // Debug.Log(highestKills[i].playerName);
+        }
+        highestKills.Sort();
+        winnerText.text = highestKills[0].playerName;
+        for (int i = 0; i < names.Length; i++) {
+            names[i].text = highestKills[i].playerName;
+            killAmounts[i].text = highestKills[i].playerKills.ToString();
+            if (names[i].text == "Name") {
+                names[i].text = "";
+                killAmounts[i].text = "";
+            }
+        }
     }
 }
