@@ -12,6 +12,7 @@ public class NicknamesScript : MonoBehaviourPunCallbacks{
 	public GameObject displayPanel;
 	public Text messageText;
 	public int[] kills;
+	public bool teamMode = false;
 
 	private void Start(){
 		displayPanel.SetActive(false);
@@ -19,7 +20,6 @@ public class NicknamesScript : MonoBehaviourPunCallbacks{
 			names[i].gameObject.SetActive(false);
 			healthbars[i].gameObject.SetActive(false); 
 		}
-
 		waitCanvasObject = GameObject.Find("WaitingBackground");
 	}
 

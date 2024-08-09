@@ -28,7 +28,7 @@ public class LobbyScript : MonoBehaviourPunCallbacks
     }
 
     public void JoinGameKillCount(){
-        levelName = "Floor layout";
+        levelName = "KillCount";
         PhotonNetwork.JoinLobby(killCount);
     }
     

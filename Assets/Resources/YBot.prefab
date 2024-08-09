@@ -6153,6 +6153,19 @@ MonoBehaviour:
     rgba: 4289991293
   - serializedVersion: 2
     rgba: 4279374516
+  teamColors:
+  - serializedVersion: 2
+    rgba: 4286449427
+  - serializedVersion: 2
+    rgba: 4286449427
+  - serializedVersion: 2
+    rgba: 4286449427
+  - serializedVersion: 2
+    rgba: 4279137234
+  - serializedVersion: 2
+    rgba: 4279137234
+  - serializedVersion: 2
+    rgba: 4279137234
   gunshotSounds:
   - {fileID: 8300000, guid: 93fba0b1bf5014543918fa775911b6a3, type: 3}
   - {fileID: 8300000, guid: 733a0ff7727334749a0381b7092162b3, type: 3}

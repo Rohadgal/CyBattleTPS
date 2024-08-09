@@ -47,8 +47,14 @@ public class Timer : MonoBehaviour{
         }
 
         if (seconds == 0 && minutes <= 0) {
-            Canvas.GetComponent<KillCount>().countDown = false;
-            Canvas.GetComponent<KillCount>().TimeOver();
+            if (!this.gameObject.GetComponent<NicknamesScript>().teamMode) {
+                Canvas.GetComponent<KillCount>().countDown = false;
+                Canvas.GetComponent<KillCount>().TimeOver();
+                timeStop = true;
+                return;
+            }
+            Canvas.GetComponent<TeamKillCount>().countDown = false;
+            Canvas.GetComponent<TeamKillCount>().TimeOver();
             timeStop = true;
         }
     }

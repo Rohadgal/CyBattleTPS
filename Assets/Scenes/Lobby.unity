@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 307570094}
   - component: {fileID: 307570093}
   m_Layer: 5
-  m_Name: KillCount description
+  m_Name: TeamBattle description
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1746,7 +1746,7 @@ GameObject:
   - component: {fileID: 1871486566}
   - component: {fileID: 1871486565}
   m_Layer: 5
-  m_Name: KillCount description
+  m_Name: NoRespawn description
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
