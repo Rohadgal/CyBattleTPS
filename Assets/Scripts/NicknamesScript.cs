@@ -13,8 +13,13 @@ public class NicknamesScript : MonoBehaviourPunCallbacks{
 	public Text messageText;
 	public int[] kills;
 	public bool teamMode = false;
+	public bool noRespawn = false;
+	public GameObject eliminationPanel;
 
 	private void Start(){
+		if (noRespawn) {
+			eliminationPanel.SetActive(false);
+		}
 		displayPanel.SetActive(false);
 		for (int  i = 0;  i < names.Length;  i++) {
 			names[i].gameObject.SetActive(false);

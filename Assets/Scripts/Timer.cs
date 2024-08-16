@@ -28,6 +28,11 @@ public class Timer : MonoBehaviour{
     }
 
     void TimeCountDown(){
+        if (gameObject.GetComponent<NicknamesScript>().noRespawn) {
+            minutesText.text = "";
+            secondsText.text = "";
+            return;
+        }
         switch (seconds) {
             case > 10:
                 seconds--;

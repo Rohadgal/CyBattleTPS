@@ -64,22 +64,6 @@ public class WeaponChange : MonoBehaviour
         
     }
 
-    // void SetLookAt()
-    // {
-    //     if (aimTarget != null)
-    //     {
-    //         for (int i = 0; i < aimObjects.Length; i++)
-    //         {
-    //             var target = aimObjects[i].data.sourceObjects;
-    //             target.SetTransform(0, aimTarget.transform);
-    //             aimObjects[i].data.sourceObjects = target;
-    //         }
-    //
-    //         rig.Build();
-    //     }
-    // }
-
-
     void Update()
     {
         if (isDead) {

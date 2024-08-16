@@ -13,15 +13,17 @@ public class DisplayColor : MonoBehaviourPunCallbacks{
 	public Color32[] colors;
 	public Color32[] teamColors;
 	private bool teamMode = false;
-
 	private GameObject namesObject, waitForPlayers;
-
 	public AudioClip[] gunshotSounds;
+	private bool isRespawn = false;
+	
 	private void Start(){
 		namesObject = GameObject.Find("NamesBackground");
 		waitForPlayers = GameObject.Find("WaitingBackground");
 		InvokeRepeating("CheckTime", 1, 1);
 		teamMode = namesObject.GetComponent<NicknamesScript>().teamMode;
+		isRespawn = namesObject.GetComponent<NicknamesScript>().noRespawn;
+		GetComponent<PlayerMovement>().noRespawn = isRespawn;
 	}
 
 	private void Update(){
@@ -35,6 +37,11 @@ public class DisplayColor : MonoBehaviourPunCallbacks{
 		if (this.GetComponent<Animator>().GetBool("isHit")) {
 			StartCoroutine(Recover());
 		}
+	}
+
+	public void NoRespawnExit(){
+		namesObject.GetComponent<NicknamesScript>().eliminationPanel.SetActive(true);
+		StartCoroutine(WaitToExit());
 	}
 
 	void CheckTime(){
@@ -150,5 +157,11 @@ public class DisplayColor : MonoBehaviourPunCallbacks{
 	IEnumerator Recover(){
 		yield return new WaitForSeconds(0.03f);
 		this.GetComponent<Animator>().SetBool("isHit", false);
+	}
+
+	IEnumerator WaitToExit(){
+		yield return new WaitForSeconds(3f);
+		RemoveMe();
+		RoomExit();
 	}
 }

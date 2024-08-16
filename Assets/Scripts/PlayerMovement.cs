@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Photon.Pun;
 using UnityEngine;
@@ -14,14 +15,21 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 startPos;
     private bool respawned = false;
     private GameObject respawnPanel;
-    
-    // Start is called before the first frame update
+    public bool noRespawn;
+    private bool startChecking = false;
+    private GameObject Canvas;
+
+    private void Awake(){
+        respawnPanel = GameObject.Find("RespawnPanel");
+        Canvas = GameObject.Find("Canvas");
+    }
+
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
         _anim = GetComponent<Animator>();
         startPos = transform.position;
-        respawnPanel = GameObject.Find("RespawnPanel");
+        
     }
 
     // Update is called once per frame
@@ -45,6 +53,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (noRespawn && PhotonNetwork.CurrentRoom.PlayerCount > 1 && !startChecking) {
+            startChecking = true;
+            InvokeRepeating("CheckForWinner", 3, 3);
+        }
         if (!isDead) {
             if(Input.GetButtonDown("Jump") && _canJump) {
                 _canJump = false;
@@ -54,10 +66,20 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
         if (!respawned && !gameOver) {
-            respawned = true;
-            respawnPanel.SetActive(true);
-            respawnPanel.GetComponent<RespawnTimer>().enabled = true;
-            StartCoroutine(RespawnWait());
+                respawned = true;
+            if (!noRespawn) {
+                respawnPanel.SetActive(true);
+                respawnPanel.GetComponent<RespawnTimer>().enabled = true;
+                StartCoroutine(RespawnWait());
+                return;
+            }
+            GetComponent<DisplayColor>().NoRespawnExit();
+        }
+    }
+
+    void CheckForWinner(){
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 1) {
+            Canvas.GetComponent<KillCount>().NoRespawnWinner(GetComponent<PhotonView>().Owner.NickName);
         }
     }
 
