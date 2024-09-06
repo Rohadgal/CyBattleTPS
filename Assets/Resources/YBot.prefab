@@ -5909,6 +5909,7 @@ MonoBehaviour:
   jumpForce: 1000
   isDead: 0
   gameOver: 0
+  noRespawn: 0
 --- !u!114 &723406979054890757
 MonoBehaviour:
   m_ObjectHideFlags: 0
